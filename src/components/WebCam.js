@@ -44,7 +44,7 @@ function WebCam(props) {
                         intervalId = setInterval(() => {
                         ctx.drawImage(videoRef.current,0,0)
                         canvasRef.current.toBlob((blob) => webSocket.send(blob), 'image/jpeg');
-                        },100);
+                        },1000);
                     })
             }).catch(err => console.log(err.name + ": " + err.message));
                 
@@ -56,8 +56,9 @@ function WebCam(props) {
             drawFaceRectangles(videoRef.current,  canvasRef.current, nameLoc );
           });
           webSocket.addEventListener('close', function () {
-            window.clearInterval(intervalId);
             videoRef.current.pause();
+            window.clearInterval(intervalId);
+            
           });
         return ( socket) => {
             window.clearInterval(intervalId);
@@ -68,7 +69,7 @@ function WebCam(props) {
               console.log("websocket closed and interval stopped")
         }
 
-    }, [])
+    },[])
   return (
     <div>
        
